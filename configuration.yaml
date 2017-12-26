@@ -1,0 +1,203 @@
+homeassistant:
+  
+  # Name of the location where Home Assistant is running
+  name: home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 17.2
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Asia/Shanghai
+  # Customization file
+
+  customize: !include customize.yaml
+  customize_glob:
+    "*.*":
+      custom_ui_state_card: state-card-custom-ui
+  #
+  packages: !include_dir_named packages
+
+# Enables configuration UI
+config:   
+
+group: !include groups.yaml
+
+automation: !include automations.yaml
+#automation: !include_dir_merge_list automation
+
+script: !include scripts.yaml
+
+
+zone:
+  - name: home
+    latitude: !secret latitude_home
+    longitude: !secret longitude_home
+    icon: mdi:home
+    
+
+  - name: work
+    latitude: !secret latitude_work
+    longitude: !secret longitude_work
+    icon: mdi:worker
+  
+# Show links to resources in log and frontend
+#introduction:
+
+#自定义UI https://github.com/andrey-git/home-assistant-custom-ui
+customizer: 
+  custom_ui: local # https://github.com/andrey-git/home-assistant-custom-ui/blob/master/docs/activating.md
+
+http:
+  api_password: !secret http_password
+  trusted_networks:     #免密登陆白名单，建议添加内网地址
+    - 127.0.0.1
+    - ::1
+    - 192.168.11.201
+
+#检查跟新
+updater: 
+  # Optional, allows Home Assistant developers to focus on popular components.
+  include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+#日志
+logbook:
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - switch
+      - light
+      - vacuum
+      - fan
+      - device_tracker
+    #entities:
+  exclude:
+    entities:
+      - sensor.since_last_boot
+
+
+#历史
+history:
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - switch
+      - light
+      - vacuum
+      - fan
+      - device_tracker
+    #entities:
+    #  - sensor.humidity_158d0001561157 #湿度
+    #  - sensor.illumination_34ce008d69b2 #亮度
+    #  - sensor.temperature_158d0001561157 #温度
+    #  - binary_sensor.motion_sensor_158d00015ce69b
+    #  - binary_sensor.door_window_sensor_158d0001831454
+    #  - binary_sensor.smoke_sensor_158d0001d37816
+      
+  exclude:
+    entities:
+     - sensor.since_last_boot
+     #- sensor.date
+
+#logger:
+#    default: info
+#    logs:
+#      homeassistant.components.xiaomi_aqara: debug
+#      homeassistant.core: debug
+
+#sensor:
+#  - platform: chineseholiday
+#    name: holiday
+
+
+# Track the sun
+sun:
+
+# Weather prediction
+#sensor:
+#  - platform: yr
+
+# Text to speech
+tts:
+  - platform: baidu
+    #name: baidu_say
+    app_id: !secret tts_baidu_appid 
+    api_key: !secret tts_baidu_apikey
+    secret_key: !secret tts_baidu_secretkey
+    speed: 5    #语速0-9（缺省5
+    pitch: 5    #语调0-9（缺省5）
+    volume: 9   #音量0-15（缺省5）
+    person: 0   #声音（0：女，1：男，3：百度合成，4：百度合成，缺省0）
+
+device_tracker:
+  - platform: asuswrt 
+    host: 192.168.11.1 
+    username: !secret router_username
+    password: !secret router_password
+    track_new_devices: no 
+    
+  - platform: gpslogger
+
+#小米网关
+xiaomi_aqara:
+  gateways:
+  - mac: !secret xiaomi_mac
+    key: !secret xiaomi_key
+
+vacuum:
+  - platform: xiaomi_miio
+    #name: 小米扫地机器人
+    host: !secret xiaomi_robort_ip
+    token: !secret xiaomi_robort_token
+    
+switch:
+  - platform: xiaomi_miio
+    #name: 小米智能WiFi插座
+    host: !secret xiaomi_switch_ip
+    token: !secret xiaomi_switch_token
+    
+notify:
+#  - name: pushbullet
+#    platform: pushbullet
+#    api_key: !secret pushbullet_api_key
+
+  - name: alertover
+    platform: alertover
+    api_key: !secret alertover_api_key
+    recipient: !secret alertover_recipient
+
+#  - platform: html5
+#    name: html5
+#    gcm_api_key: !secret gcm-api-key
+#    gcm_sender_id: !secret gcm-sender-id
+#数据库
+#recorder:
+#  db_url: !secret my_dburl
+
+panel_iframe: !include panel_iframe.yaml
+
+ifttt:
+  key: !secret ifttt_key
+
+media_player:
+  - platform: tts_bluetooth_speaker
+    address: 18:BC:5A:1F:0F:FF   # 例子, 00:2F:AD:12:0D:42
+    volume: 0.45                   # 默认是 0.5
+
+#remote:
+#  - platform: mitv_remote
+#    host: 192.168.11.47
+#    name: tv1
+#  - platform: mitv_remote
+#    host: 192.168.11.48
+#    name: tv2

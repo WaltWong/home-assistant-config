@@ -1,0 +1,113 @@
+binary_sensor.door_window_sensor_158d0001831454:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 大门
+binary_sensor.door_window_sensor_158d0001f38f9a:
+  friendly_name: 主卧门
+  extra_data_template: 剩余电量${attributes.battery_level}%
+binary_sensor.motion_sensor_158d00015ce69b:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 过道人体传感器
+binary_sensor.motion_sensor_158d0001e41f93:
+  friendly_name: 餐厅人体传感器
+  extra_data_template: 剩余电量${attributes.battery_level}%
+binary_sensor.smoke_sensor_158d0001d37816:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 烟雾报警器
+binary_sensor.switch_158d000183f6e6:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 书房无线开关
+binary_sensor.switch_158d0001d526af:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 卧室无线开关
+light.gateway_light_34ce0082a9d7:
+  friendly_name: 网关灯
+light.gateway_light_34ce008d69b2:
+  friendly_name: 过道网关灯
+scene.exit:
+  friendly_name: 离开
+  icon: mdi:logout
+scene.sleep:
+  friendly_name: 晚安
+  icon: mdi:sleep
+sensor.chinese_air_quality_index:
+  friendly_name: 污染指数-中标
+sensor.chinese_main_pollutant:
+  friendly_name: 主要污染物
+sensor.coconut_conductivity:
+  friendly_name: 土壤肥力
+  icon: mdi:flower
+sensor.coconut_light_intensity:
+  friendly_name: 室外光照
+sensor.coconut_moisture:
+  friendly_name: 土壤湿度
+  icon: mdi:cup-water
+sensor.coconut_temperature:
+  friendly_name: 室外温度
+sensor.games:
+  icon: mdi:gamepad-variant
+sensor.humidity_158d0001561157:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 湿度
+  icon: mdi:water
+sensor.illumination_158d0001e41f93:
+  friendly_name: 餐厅照度
+  extra_data_template: 剩余电量${attributes.battery_level}%
+sensor.illumination_34ce008d69b2:
+  friendly_name: 过道亮度
+sensor.moon:
+  friendly_name: 月亮
+  icon: mdi:brightness-2
+sensor.moon_state:
+  icon: mdi:brightness-2
+sensor.sun_state:
+  icon: mdi:white-balance-sunny
+sensor.temperature_158d0001561157:
+  extra_data_template: 剩余电量${attributes.battery_level}%
+  friendly_name: 温度
+sensor.tide:
+  friendly_name: 潮汐
+  icon: mdi:waves
+sensor.us_air_quality_index:
+  friendly_name: 污染指数-美标
+switch.plug_158d00015b6fb3:
+  extra_data_template: 功率${attributes.load_power}W
+  friendly_name: 智能马桶插座
+switch.wall_plug_158d000159e4d2:
+  friendly_name: 主卧墙壁插座
+switch.wall_switch_ln_left_158d0001d47555:
+  friendly_name: 次卧电视插座
+switch.wall_switch_ln_left_158d0001d6539a:
+  friendly_name: 主卧灯
+  icon: mdi:lightbulb
+switch.wall_switch_ln_left_158d0001d885c7:
+  friendly_name: 餐厅吊灯
+  icon: mdi:lightbulb
+switch.wall_switch_ln_left_158d0001d885de:
+  friendly_name: 过道灯1
+  icon: mdi:lightbulb
+switch.wall_switch_ln_left_158d0001da65ec:
+  friendly_name: 客厅筒灯
+  icon: mdi:lightbulb
+switch.wall_switch_ln_right_158d0001d47555:
+  friendly_name: 次卧灯
+  icon: mdi:lightbulb
+switch.wall_switch_ln_right_158d0001d6539a:
+  friendly_name: 主卧电视插座
+switch.wall_switch_ln_right_158d0001d885c7:
+  friendly_name: 餐厅灯
+  icon: mdi:lightbulb
+switch.wall_switch_ln_right_158d0001d885de:
+  friendly_name: 过道灯2
+  icon: mdi:lightbulb
+switch.wall_switch_ln_right_158d0001da65ec:
+  friendly_name: 客厅灯
+  icon: mdi:lightbulb
+switch.xiaomi_miio_switch:
+  extra_data_template: ${attributes.load_power}W
+  friendly_name: 书房插座
+vacuum.xiaomi_vacuum_cleaner:
+  friendly_name: 扫地机器人
+zone.home:
+  friendly_name: 家
+zone.work:
+  friendly_name: 工作

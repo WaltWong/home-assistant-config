@@ -1,0 +1,200 @@
+- alias: Startup Notification
+  trigger:
+  - platform: event
+    event_type: homeassistant_start
+  action:
+  - delay: 0:05
+  - service: notify.alertover
+    data:
+      message: HASS启动完成!
+      title: HASS已启动
+  - service: ifttt.trigger
+    data:
+      event: TestHA_Trigger
+      value1: Hello World!
+
+- alias: Stop Notification
+  trigger:
+  - platform: event
+    event_type: homeassistant_stop
+  action:
+    service: notify.alertover
+    data:
+      message: HASS停止!
+      title: HASS停止
+
+#书房 
+#单击开插座
+- alias: StudyAutomation1 
+  initial_state: True #
+  hide_entity: False #
+  trigger:
+  - platform: event
+    event_data:
+      click_type: single #double
+      entity_id: binary_sensor.switch_158d000183f6e6
+    event_type: click
+  condition:  #判断插座是关闭才触发 
+    condition: state
+    entity_id: switch.xiaomi_miio_switch
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.xiaomi_miio_switch
+
+- alias: 'Update Available Notifications'
+  trigger:
+    platform: state
+    entity_id: updater.updater
+  action:
+    service: notify.alertover
+    data:
+      message: 'Update for Home Assistant is available.'
+
+# 老婆到家通知我（我不在家，规定时间） 
+- alias: 'tell me who at home'
+  initial_state: True #
+  hide_entity: False #
+  trigger:
+  - platform: state
+    from: 'not_home'
+    to: 'home'
+    entity_id: device_tracker.ew
+  condition:  
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'device_tracker.mi5spluswmjmi5p'
+      state: 'not_home'
+    - condition: time
+      after: '15:00:00'
+      before: '23:00:00'
+  action:
+  - service: notify.alertover
+    data:
+      message: '老婆到家啦'
+
+- alias: 'tell me open door'
+  initial_state: True #
+  hide_entity: False #
+  trigger:
+  - platform: state
+    #from: 'not_home'
+    to: 'on'
+    entity_id: binary_sensor.door_window_sensor_158d0001831454
+  condition:  
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'device_tracker.mi5spluswmjmi5p'
+      state: 'not_home'
+    - condition: time
+      after: '15:00:00'
+      before: '23:00:00'
+  action:
+  - service: notify.alertover
+    data:
+      message: '有人回家啦'
+
+
+
+#米网关小夜灯-有人亮灯
+- alias: 'Turn on the gateway light'
+  hide_entity: True
+  condition:
+    condition: and
+    conditions:
+    #- condition: time
+    #  after: '15:00:00'
+    #  before: '23:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_34ce008d69b2
+      below: 100
+  trigger:
+  - platform: state
+    from: 'off'
+    to: 'on'
+    entity_id: binary_sensor.motion_sensor_158d00015ce69b #过道人体传感
+  action:
+  - service: light.turn_on
+    entity_id: light.gateway_light_34ce008d69b2
+    data:
+      brightness: 200
+      color_name: "white"
+
+#无人10分钟后关闭
+- alias: 'Turn off kitchen light n minutes after last movement'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d00015ce69b
+    to: 'off'
+    for:
+      minutes: 2
+  action:
+    service: light.turn_off
+    entity_id: light.gateway_light_34ce008d69b2
+
+# 主卧
+- alias: 'bedroom ligth close-set fan speed silent' #主卧关灯-空气净化器进入无声状态(关蜂鸣器)
+  initial_state: True #
+  hide_entity: False #
+  trigger:
+  - platform: state
+    from: 'on'
+    to: 'off'
+    entity_id: switch.wall_switch_ln_left_158d0001d6539a
+  condition:  #判断主卧门是否关闭 
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.door_window_sensor_158d0001f38f9a
+      state: 'off'
+    - condition: state
+      entity_id: fan.xiaomi
+      state: 'on'
+  action:
+  - service: airpurifier.set_buzzer_off
+    entity_id: fan.xiaomi
+  - service: fan.set_speed #fan.turn_on
+    data:
+      entity_id: fan.xiaomi
+      speed: Silent
+
+- alias: 'bedrom is open-trun off fan' #主卧开门2分钟后关空气净化器
+  initial_state: True #
+  hide_entity: False #
+  trigger:
+  - platform: state
+    #from: 'off'
+    to: 'on'
+    for:
+      minutes: 3
+    entity_id: binary_sensor.door_window_sensor_158d0001f38f9a
+  action:
+  - service: fan.turn_off # fan.set_speed
+    data:
+      entity_id: fan.xiaomi
+      #speed: Auto
+      
+- alias: 'bedrom is close-trun on fan'
+  initial_state: True #
+  hide_entity: False #
+  trigger:
+  - platform: state
+    #from: 'on'
+    to: 'off'
+    for:
+      minutes: 3
+    entity_id: binary_sensor.door_window_sensor_158d0001f38f9a
+  action:
+  - service: fan.turn_on # fan.set_speed
+    data:
+      entity_id: fan.xiaomi
+      speed: >
+        {% if is_state('switch.wall_switch_ln_left_158d0001d6539a', 'off') %}
+          Silent
+        {% else %}
+          Auto
+        {% endif %}

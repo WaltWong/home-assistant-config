@@ -1,0 +1,37 @@
+sensor:
+  - platform: systemmonitor
+    resources:
+    - type: memory_free
+    - type: memory_use_percent
+    - type: processor_use
+    - type: since_last_boot
+    - type: disk_free
+      arg: /
+
+group:
+  sysinfo:
+    name: 系统信息
+    entities:
+    - sensor.cpu_used
+    - sensor.ram_available
+    - sensor.ram_used
+    - sensor.since_last_boot
+    - sensor.disk_free_
+    
+homeassistant:
+  customize:
+    sensor.cpu_used:
+      state_card_mode: badges
+      friendly_name: 处理器
+    sensor.ram_available:
+      state_card_mode: badges
+      friendly_name: 可用内存
+    sensor.ram_used:
+      state_card_mode: badges
+      friendly_name: 内存使用
+    sensor.since_last_boot:
+      state_card_mode: badges
+      friendly_name: 启动时间
+    sensor.disk_free_:
+      state_card_mode: badges
+      friendly_name: 磁盘剩余

@@ -1,0 +1,16 @@
+fan:
+  - platform: xiaomi_miio
+    name: xiaomi
+    host: !secret xiaomi_air_ip
+    token: !secret xiaomi_air_token
+
+
+      
+homeassistant:
+  customize:
+    fan.xiaomi:
+      friendly_name: 空气净化器
+      extra_badge:
+        attribute: aqi
+        unit: AQI
+      extra_data_template: 滤芯已用${attributes.filter_hours_used}小时，剩余${attributes.filter_life_remaining}%

@@ -1,0 +1,4 @@
+configurator:
+  title: '配置器'
+  icon: mdi:wrench
+  url: 'https://hassconfig.jherbin.ink/'

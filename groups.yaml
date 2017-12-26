@@ -1,0 +1,33 @@
+
+
+light:
+  name: 灯具
+  entities:
+  - switch.wall_switch_ln_left_158d0001d6539a #主卧灯
+  - switch.wall_switch_ln_right_158d0001d47555 #次卧
+  - switch.wall_switch_ln_right_158d0001da65ec
+  - switch.wall_switch_ln_left_158d0001da65ec
+  - switch.wall_switch_ln_left_158d0001d885c7
+  - switch.wall_switch_ln_right_158d0001d885c7
+  - switch.wall_switch_ln_left_158d0001d885de
+  - switch.wall_switch_ln_right_158d0001d885de
+
+bedroom1:
+  name: 主卧
+  control: hidden
+  entities:
+  - switch.wall_switch_ln_left_158d0001d6539a #主卧灯
+  - switch.wall_switch_ln_right_158d0001d6539a #主卧电视插座
+  - switch.wall_plug_158d000159e4d2 #主卧墙壁插座
+  - fan.xiaomi
+  - binary_sensor.door_window_sensor_158d0001f38f9a
+  - sensor.temperature_158d0001561157
+  - sensor.humidity_158d0001561157
+  - binary_sensor.switch_158d0001d526af
+  
+bedroom1auto:
+  name: 主卧自动化
+  entities:
+  - automation.bedrom1automation1
+  - automation.bedrom1automation2
+  - automation.bedrom1automation3

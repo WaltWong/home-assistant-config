@@ -1,0 +1,7 @@
+'1511591647951':
+  alias: goodnight
+  sequence:
+  - alias: close all lights
+    data:
+      entity_id: group.light
+    service: switch.trun_off
